@@ -12,6 +12,6 @@ Para obtener una copia del mismo ejecutar:
 
 # Autores
 
-  -***Guillermo Toledo***
-  
-  -***Daniel Tolosa***
+  ***Guillermo Toledo***
+
+  ***Daniel Tolosa***
