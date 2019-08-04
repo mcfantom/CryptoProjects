@@ -1,0 +1,28 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+      "lib": ["es2015", "es6"],
+      "target": "es6",
+      "module": "commonjs",
+      "removeComments": true,
+      "strict": true,
+      "noStrictGenericChecks": true,
+      "noImplicitAny": false,
+      "strictNullChecks": true,
+      "strictFunctionTypes": true,
+      "noImplicitThis": true,
+      "alwaysStrict": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noImplicitReturns": true,
+      "noFallthroughCasesInSwitch": true,
+      "moduleResolution": "node",
+      "inlineSourceMap": true,
+      "inlineSources": true
+    },
+    "include": [
+      "src/**/*",
+      "bin/**/*"
+    ],
+    "exclude": ["node_modules"]
+  }

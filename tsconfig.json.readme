@@ -1,0 +1,55 @@
+/*
+Este es una archivo con el mismo contenido que el tsconfig.json, pero con las explicaciones del caso
+*/
+
+
+/* En este archivo, tsconfig.json, se resguardan diferentes configuraciones o reglas para compilar el Typescript*/
+{
+    /*
+        La siguiente linea hace que luego de salvar el archivo Typescript,
+        lo compile generando su correspondiente archivo Javascript
+    */
+
+    "compileOnSave": true,
+    "compilerOptions": {
+      /* Librerias soportadas*/
+      "lib": ["es2015", "es6"],
+      /* Basic Options */
+      "target": "es6",
+      "module": "commonjs",
+      /*Al compilar remueve los comentarios y hace que el archivo javascript sea mas pequeno*/
+      "removeComments": true,
+
+      /* Strict Type-Checking Options */
+      /* Con strict en true hace que todo se tenga que definir de antemano y no se suponga nada */
+      "strict": true,
+      "noStrictGenericChecks": true,
+      "noImplicitAny": false,
+      "strictNullChecks": true,
+      "strictFunctionTypes": true,
+      "noImplicitThis": true,
+      "alwaysStrict": true,
+
+      /* Additional Checks */
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noImplicitReturns": true,
+      "noFallthroughCasesInSwitch": true,
+
+      /* Module Resolution Options */
+      "moduleResolution": "node",
+      /*
+        Las siguientes lineas mantienen o guardan una relacion entre lo compilado y
+        el fuente para poder debugear.
+        Esto es porque una vez que se compilo, normalmente las lineas de codigos generadas
+        en javascript son diferentes a las originales que "trabajamos" en Typescript
+      */
+      "inlineSourceMap": true,
+      "inlineSources": true
+    },
+    "include": [
+      "src/**/*",
+      "bin/**/*"
+    ],
+    "exclude": ["node_modules"]
+  }

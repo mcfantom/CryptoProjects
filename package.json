@@ -1,0 +1,22 @@
+{
+  "name": "mvpwallet",
+  "version": "0.0.1",
+  "description": "MVP para validar el desarrollo conectado a la blockchain de NEM.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Guillermo Toledo - Daniel Tolosa (CoalaGroup)",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^12.6.8"
+  },
+  "dependencies": {
+    "nem-library": "1.1.0-RC1",
+    "rxjs": "^6.5.2"
+  },
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/mcfantom/CryptoProjects.git"
+    },
+}
