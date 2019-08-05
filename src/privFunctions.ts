@@ -21,8 +21,8 @@ export const leftPad = (numberToPad: number, lengthRequired: number): string => 
  */
 export const timeStampPretty = () =>{
   // Donde dice getMonth se suma 1, porque en javascript los meses son
-  // "como si fuesen un array que inicia en 0". Entonces, por ejemplo en el mes de Agosto,
-  // getMonth devuelve un 7.
+  // "como el index de un array, inician en 0". Entonces, por ejemplo en el mes
+  // de Agosto, getMonth devuelve un 7.
   const currentDate = new Date();
   const timeStampPrettyString = currentDate.getFullYear().toString() +
     leftPad(currentDate.getMonth() + 1, 2) +
