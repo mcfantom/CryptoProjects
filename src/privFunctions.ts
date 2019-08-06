@@ -19,7 +19,7 @@ export const leftPad = (numberToPad: number, lengthRequired: number): string => 
  * Esta funcion devuelve un timestamp en el formato YYYYMMDD_HHMMSS
  * @return {String}
  */
-export const timeStampPretty = () =>{
+export const timeStampPretty = (): string =>{
   // Donde dice getMonth se suma 1, porque en javascript los meses son
   // "como el index de un array, inician en 0". Entonces, por ejemplo en el mes
   // de Agosto, getMonth devuelve un 7.
