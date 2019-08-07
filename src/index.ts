@@ -23,6 +23,8 @@ NEMLibrary.bootstrap(NetworkTypes.TEST_NET);
 
 // Variable para resguardar el password
 const miWalletPass = new Password('01PrimerTestWallet');
+// TCGOIEPKSLTX6T2ENMUYT43H2ZHMECHE6CPWDQ6N
+// TCGOIE-PKSLTX-6T2ENM-UYT43H-2ZHMEC-HE6CPW-DQ6N
 
 /*
 // Segundo Ejemplo...
@@ -36,7 +38,7 @@ console.log('\n');
 
 /*
 // Tercer Ejemplo
-// Lista de las transacciones de una cuenta.
+// Consulta las transacciones de una cuenta.
 // Ojo con el comportamiento asincrono. Ver que sucede entre la impresion de las transacciones y el mensaje de fin y salida
 
 const myAddress = new Address('TBIUQMOGHUH7GN5LM62CQ5CI4JEXMWU455IPHIYZ');
@@ -137,3 +139,64 @@ const myAddress = miWallet.address;
 console.log('La address o direccion de la cuenta contenida en la wallet es:\n');
 console.log(myAddress.pretty());
 console.log('\n');
+
+
+/*
+// Sexto Ejemplo
+// Enviar token
+
+// Crea una trasnsaccion
+const transactionHttp = new TransactionHttp();
+
+// Se guarda en una variable temporal la clave privada de quien envia
+// Lo interesante seria abrir la wallet, sacar la data y con esta data firmar la transaccion.
+//const privateKey: string = process.env.PRIVATE_KEY;
+const privateKey: string = "39bed0a2aa27aeedd7374788ccefa644d78c25f8cb1e06b6080c96adf6b32caa";
+
+// Crea una cuenta con la clave privada.
+const account = Account.createWithPrivateKey(privateKey);
+
+//const transferTransaction = TransferTransaction.create(
+//    TimeWindow.createWithDeadline(),
+//    new Address("TASEBR-E3OYKZ-DC5XKA-QLAIXX-ILLLHB-QRNSFR-MSJP"),
+//    new XEM(0),
+//    PlainMessage.create("A ver si llega el mensaje...")
+//);
+
+// Crea una transaccion y la envia...
+const transferTransaction = TransferTransaction.create(
+    TimeWindow.createWithDeadline(),
+    new Address("TDU7LJFF5SZ6RA3WOPN54HMNR2QLO5XI3WDVNIH3"),
+    new XEM(5),
+    PlainMessage.create("Programando en el Accelerator Blockchain!!!")
+);
+
+const signedTransaction = account.signTransaction(transferTransaction);
+
+console.log(signedTransaction);
+
+transactionHttp.announceTransaction(signedTransaction).subscribe(x => console.log(x));
+*/
+
+/*
+// Septimo Ejemplo
+// Revisar balances
+*/
+
+// Revisar balance de XEM
+// Revisar blances de MOSAICs
+// C:\_Curso\temp\DoctaBKP\DoctaWallet.wlt
+
+const myAccount = new AccountHttp();
+myAccount.getMosaicOwnedByAddress(myAddress).subscribe(mosaics => {
+  const xemMosaic = mosaics.find((mosaic) => {
+		return mosaic.mosaicId.name === 'xem';
+	});
+	if (!xemMosaic) {
+    console.log('La cantidad XEM es: 0');
+  } else {
+	   console.log(`La cantidad XEM es: ${xemMosaic.quantity / 1e6}`);
+  }
+});
+
+//const miBalanceXEM = miAd
