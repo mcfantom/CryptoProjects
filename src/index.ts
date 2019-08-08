@@ -8,7 +8,9 @@ console.log(sMessage)
 */
 
 // Importacion de diferentes objetos desde la NEM Library
-import {NEMLibrary, NetworkTypes, Password, SimpleWallet, AccountHttp, Address, MosaicHttp, QueryParams} from 'nem-library';
+import {NEMLibrary, NetworkTypes, Password, SimpleWallet, AccountHttp, Address,
+        MosaicHttp, QueryParams, TransactionHttp, TimeWindow, TransferTransaction,
+        PlainMessage, Account} from 'nem-library';
 
 // Importacion de modulo con funciones utiles
 import { timeStampPretty } from './privFunctions';
@@ -58,7 +60,7 @@ console.log('\n==>>Terminando y saliendo...\n')
 // Consultando todos los mosaicos dentro de un NameSpace dado, en este caso "docta"
 console.log('==>>Realizando una consulta sobre mosaicos...\n')
 const mosaicHttp = new MosaicHttp();
-const nameSpace='docta';
+const nameSpace='docta_test';
 
 mosaicHttp.getAllMosaicsGivenNamespace(nameSpace).subscribe(mosaicDefinitions => {
 	console.log(mosaicDefinitions);
@@ -106,7 +108,7 @@ console.log(`\n==>>La wallet se guardo exitosamente en: ${fullFileWalletPath}\n`
 /*
 // Quinto Ejemplo
 // Leyendo una wallet desde el disco
-*/
+
 
 // Leyendo el archivo de la wallet...
 console.log('Cargando el contenido del archivo (en crudo) de la wallet en una variable\n');
@@ -139,7 +141,7 @@ const myAddress = miWallet.address;
 console.log('La address o direccion de la cuenta contenida en la wallet es:\n');
 console.log(myAddress.pretty());
 console.log('\n');
-
+*/
 
 /*
 // Sexto Ejemplo
@@ -181,11 +183,10 @@ transactionHttp.announceTransaction(signedTransaction).subscribe(x => console.lo
 /*
 // Septimo Ejemplo
 // Revisar balances
-*/
+
 
 // Revisar balance de XEM
 // Revisar blances de MOSAICs
-// C:\_Curso\temp\DoctaBKP\DoctaWallet.wlt
 
 const myAccount = new AccountHttp();
 myAccount.getMosaicOwnedByAddress(myAddress).subscribe(mosaics => {
@@ -196,7 +197,54 @@ myAccount.getMosaicOwnedByAddress(myAddress).subscribe(mosaics => {
     console.log('La cantidad XEM es: 0');
   } else {
 	   console.log(`La cantidad XEM es: ${xemMosaic.quantity / 1e6}`);
-  }
-});
+  };
 
-//const miBalanceXEM = miAd
+  const doctaMosaic = mosaics.find((mosaic) => {
+    return mosaic.mosaicId.name === 'doctatst';
+  });
+  if (!doctaMosaic) {
+    console.log('La cantidad doctatst es: 0');
+  } else {
+     console.log(`La cantidad doctatst es: ${doctaMosaic.quantity / 1e6}`);
+  };
+});
+*/
+
+/*
+// Octavo Ejemplo
+// Hacer transacciones
+*/
+
+// Dev Account
+// Account {
+//   address: Address {
+//     value: 'TCGOIEPKSLTX6T2ENMUYT43H2ZHMECHE6CPWDQ6N',
+//     networkType: 152
+//   },
+//   publicKey: '950c8c99309d62481d27ee673612d2f9c6696b59621384fa7f461f176fffb59d',
+//   privateKey: 'c4c40504fded0288455b2dbb02ad47ffba0dbab31a882251391a454905857b9c'
+// }
+//
+// TASEBRE3OYKZDC5XKAQLAIXXILLLHBQRNSFRMSJP ==>> Esta es mi nanowallet Docta
+
+// Crea una trasnsaccion
+const transactionHttp = new TransactionHttp();
+
+// Se guarda en una variable temporal la clave privada de quien envia
+// Lo interesante seria abrir la wallet, sacar la data y con esta data firmar la transaccion.
+//const privateKey: string = process.env.PRIVATE_KEY;
+const privateKey: string = 'c4c40504fded0288455b2dbb02ad47ffba0dbab31a882251391a454905857b9c';
+
+// Crea una cuenta con la clave privada.
+const account = Account.createWithPrivateKey(privateKey);
+
+// Crea una transaccion y la envia...
+const transferTransaction = TransferTransaction.create(
+    TimeWindow.createWithDeadline(),
+    new Address("TASEBRE3OYKZDC5XKAQLAIXXILLLHBQRNSFRMSJP"),
+    new XEM(5),
+    PlainMessage.create("Programando en el Accelerator Blockchain!!!")
+);
+const signedTransaction = account.signTransaction(transferTransaction);
+console.log(signedTransaction);
+transactionHttp.announceTransaction(signedTransaction).subscribe(x => console.log(x));
