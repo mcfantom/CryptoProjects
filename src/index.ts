@@ -10,7 +10,7 @@ console.log(sMessage)
 // Importacion de diferentes objetos desde la NEM Library
 import {NEMLibrary, NetworkTypes, Password, SimpleWallet, AccountHttp, Address,
         MosaicHttp, QueryParams, TransactionHttp, TimeWindow, TransferTransaction,
-        PlainMessage, Account} from 'nem-library';
+        PlainMessage, Account, MosaicTransferable, Mosaic} from 'nem-library';
 
 // Importacion de modulo con funciones utiles
 import { timeStampPretty } from './privFunctions';
@@ -227,24 +227,79 @@ myAccount.getMosaicOwnedByAddress(myAddress).subscribe(mosaics => {
 //
 // TASEBRE3OYKZDC5XKAQLAIXXILLLHBQRNSFRMSJP ==>> Esta es mi nanowallet Docta
 
-// Crea una trasnsaccion
-const transactionHttp = new TransactionHttp();
+// Leyendo el archivo de la wallet...
+console.log('Cargando el contenido del archivo (en crudo) de la wallet en una variable\n');
+const tmpStrMiWallet = fs.readFileSync(`${fullFileWalletPath}`, 'utf8');
+const miWallet = SimpleWallet.readFromWLT(tmpStrMiWallet);
+const myAddress = miWallet.address;
+console.log('La address o direccion de la cuenta contenida en la wallet es:\n');
+console.log(myAddress.pretty());
 
-// Se guarda en una variable temporal la clave privada de quien envia
-// Lo interesante seria abrir la wallet, sacar la data y con esta data firmar la transaccion.
-//const privateKey: string = process.env.PRIVATE_KEY;
-const privateKey: string = 'c4c40504fded0288455b2dbb02ad47ffba0dbab31a882251391a454905857b9c';
+// Funcion para buscar un mosaico en una wallet.
+const searchMosaic = (address: Address): Promise<Mosaic> => {
+	return new Promise<Mosaic>((resolve, reject) => {
+		console.log(`Buscando mosaico en la direccion: ${address.pretty()}`);
 
-// Crea una cuenta con la clave privada.
-const account = Account.createWithPrivateKey(privateKey);
+    const myAccount = new AccountHttp();
+    myAccount.getMosaicOwnedByAddress(address).subscribe(mosaics => {
+      try{
+        resolve(mosaics.find((mosaic) => {
+          return mosaic.mosaicId.name === 'doctatst';
+        }));
+      } catch(err) {
+        console.log(`${err}`);
+    			console.log('Please try again');
+    			reject();
+      };
+    });
+	});
+};
 
-// Crea una transaccion y la envia...
-const transferTransaction = TransferTransaction.create(
-    TimeWindow.createWithDeadline(),
-    new Address("TASEBRE3OYKZDC5XKAQLAIXXILLLHBQRNSFRMSJP"),
-    new XEM(5),
-    PlainMessage.create("Programando en el Accelerator Blockchain!!!")
-);
-const signedTransaction = account.signTransaction(transferTransaction);
-console.log(signedTransaction);
-transactionHttp.announceTransaction(signedTransaction).subscribe(x => console.log(x));
+// Funcion para imprimir la informacion de un mosaico.
+const imprimeMosaico = async () => {
+  const pp = await searchMosaic(myAddress);
+  console.log('Hola xyz');
+  console.log(`El mosaico encontrado es: ${pp.mosaicId.name}`);
+
+
+  const pptransfer = new MosaicTransferable.
+
+};
+
+//const selectedMosaic = new MosaicTransferable();
+
+imprimeMosaico();
+
+
+
+
+
+
+
+
+
+
+
+// // Crea una trasnsaccion
+// const transactionHttp = new TransactionHttp();
+//
+// // Se guarda en una variable temporal la clave privada de quien envia
+// // Lo interesante seria abrir la wallet, sacar la data y con esta data firmar la transaccion.
+// //const privateKey: string = process.env.PRIVATE_KEY;
+// const privateKey: string = 'c4c40504fded0288455b2dbb02ad47ffba0dbab31a882251391a454905857b9c';
+//
+// // Crea una cuenta con la clave privada.
+// const account = Account.createWithPrivateKey(privateKey);
+//
+// // Crea una transaccion y la envia...
+// const transferTransaction = TransferTransaction.create(
+//     TimeWindow.createWithDeadline(),
+//     new Address("TASEBRE3OYKZDC5XKAQLAIXXILLLHBQRNSFRMSJP"),
+//     new XEM(5),
+//     PlainMessage.create("Programando en el Accelerator Blockchain!!!")
+// );
+// const signedTransaction = account.signTransaction(transferTransaction);
+// console.log(signedTransaction);
+// transactionHttp.announceTransaction(signedTransaction).subscribe(x => console.log(x));
+
+// Revisar como hace la transaccion en https://github.com/dgarcia360/NEMPay/blob/master/src/pages/transfer/transfer.ts
