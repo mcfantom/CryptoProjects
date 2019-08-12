@@ -262,7 +262,7 @@ const imprimeMosaico = async () => {
   console.log(`El mosaico encontrado es: ${pp.mosaicId.name}`);
 
 
-  const pptransfer = new MosaicTransferable.
+  //const pptransfer = new MosaicTransferable.
 
 };
 
