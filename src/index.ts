@@ -10,7 +10,7 @@ console.log(sMessage)
 // Importacion de diferentes objetos desde la NEM Library
 import {NEMLibrary, NetworkTypes, Password, SimpleWallet, AccountHttp, Address,
         MosaicHttp, QueryParams, TransactionHttp, TimeWindow, TransferTransaction,
-        PlainMessage, Account, Mosaic, MosaicTransferable, MosaicId} from 'nem-library';
+        PlainMessage, Account, Mosaic, MosaicTransferable, MosaicId, XEM, NodeHttp, HttpEndpoint, ServerConfig} from 'nem-library';
 
 // Importacion de modulo con funciones utiles
 import { timeStampPretty } from './privFunctions';
@@ -145,10 +145,22 @@ console.log('\n');
 
 /*
 // Sexto Ejemplo
-// Enviar XEM
+// Enviar XEM (transacciones con XEM)
+*/
+// switch to node nistest.opening-line.jp. It uses different configuration so should allow wrong timestamp.
+// change your local time -30sec
+// Crea una transaccion con sus datos.
+const transferTransaction = TransferTransaction.create(
+    TimeWindow.createWithDeadline(),
+    new Address("TASEBRE3OYKZDC5XKAQLAIXXILLLHBQRNSFRMSJP"),
+    new XEM(1),
+    PlainMessage.create("Programando con NEM Blockchain en Santiago!!!")
+);
 
-// Crea una trasnsaccion
-const transactionHttp = new TransactionHttp();
+// Crea una conexion HTTP para enviar la trx luego
+// En este caso se configura un NODO NEM para salir especificamente por este nodo y no por el primero que se encuentre
+let NodoNEM = <ServerConfig>{protocol: 'https', domain: 'nistest.opening-line.jp', port: 7891};
+const transactionHttp = new TransactionHttp([NodoNEM]);
 
 // Se guarda en una variable temporal la clave privada de quien envia
 // Lo interesante seria abrir la wallet, sacar la data y con esta data firmar la transaccion.
@@ -158,34 +170,39 @@ const privateKey: string = "c4c40504fded0288455b2dbb02ad47ffba0dbab31a882251391a
 // Crea una cuenta con la clave privada.
 const account = Account.createWithPrivateKey(privateKey);
 
-//const transferTransaction = TransferTransaction.create(
-//    TimeWindow.createWithDeadline(),
-//    new Address("TASEBR-E3OYKZ-DC5XKA-QLAIXX-ILLLHB-QRNSFR-MSJP"),
-//    new XEM(0),
-//    PlainMessage.create("A ver si llega el mensaje...")
-//);
-
-// Crea una transaccion y la envia...
-const transferTransaction = TransferTransaction.create(
-    TimeWindow.createWithDeadline(),
-    new Address("TASEBRE3OYKZDC5XKAQLAIXXILLLHBQRNSFRMSJP"),
-    new XEM(1),
-    PlainMessage.create("Programando con NEM Blockchain en Santiago!!!")
-);
-
 const signedTransaction = account.signTransaction(transferTransaction);
 
 console.log(signedTransaction);
 
-transactionHttp.announceTransaction(signedTransaction).subscribe(x => console.log(x));
-*/
+transactionHttp.announceTransaction(signedTransaction).subscribe(x => {
+  console.log(x)
+});
+
+
+// Crea una transaccion y la envia...
+
+// function delay(ms) {
+//   return new Promise(function(resolve) {
+//     setTimeout(resolve, ms);
+//   });
+// }
+//
+// async function asyncAwait() {
+//   console.log("Knock, knock!");
+//   await delay(100000);
+// }
+// asyncAwait();
+
+
+
+
 // Leyendo el archivo de la wallet...
-console.log('Cargando el contenido del archivo (en crudo) de la wallet en una variable\n');
-const tmpStrMiWallet = fs.readFileSync(`${fullFileWalletPath}`, 'utf8');
-const miWallet = SimpleWallet.readFromWLT(tmpStrMiWallet);
-const myAddress = miWallet.address;
-console.log('La address o direccion de la cuenta contenida en la wallet es:\n');
-console.log(myAddress.pretty());
+// console.log('Cargando el contenido del archivo (en crudo) de la wallet en una variable\n');
+// const tmpStrMiWallet = fs.readFileSync(`${fullFileWalletPath}`, 'utf8');
+// const miWallet = SimpleWallet.readFromWLT(tmpStrMiWallet);
+// const myAddress = miWallet.address;
+// console.log('La address o direccion de la cuenta contenida en la wallet es:\n');
+// console.log(myAddress.pretty());
 
 /*
 // Septimo Ejemplo
@@ -222,7 +239,7 @@ myAccount.getMosaicOwnedByAddress(myAddress).subscribe(mosaics => {
 
 /*
 // Octavo Ejemplo
-// Hacer transacciones
+// Hacer transacciones con mosaicos
 */
 
 // Dev Account
@@ -239,14 +256,14 @@ myAccount.getMosaicOwnedByAddress(myAddress).subscribe(mosaics => {
 //
 
 
-console.log('A ver si se puede obtener un mosaico transferible...');
-const pipi = new MosaicId('docta_test', 'doctatst');
-const caca = new MosaicHttp();
-
-// Busco un mosaico y lo devuelvo en modo transferable para poder luego adjuntarlo en una transaccion
-caca.getMosaicTransferableWithAbsoluteAmount(pipi, 1).subscribe( mmtransferable =>  {
-    console.log(`Algo...: ${mmtransferable.properties.divisibility.toString()}`);
-});
+// console.log('A ver si se puede obtener un mosaico transferible...');
+// const pipi = new MosaicId('docta_test', 'doctatst');
+// const caca = new MosaicHttp();
+//
+// // Busco un mosaico y lo devuelvo en modo transferable para poder luego adjuntarlo en una transaccion
+// caca.getMosaicTransferableWithAbsoluteAmount(pipi, 1).subscribe( mmtransferable =>  {
+//     console.log(`Algo...: ${mmtransferable.properties.divisibility.toString()}`);
+// });
 
 
 
@@ -259,36 +276,36 @@ caca.getMosaicTransferableWithAbsoluteAmount(pipi, 1).subscribe( mmtransferable 
 
 
 // Funcion para buscar un mosaico en una wallet.
-const searchMosaic = (address: Address): Promise<Mosaic> => {
-	return new Promise<Mosaic>((resolve, reject) => {
-		console.log(`Buscando mosaico en la direccion: ${address.pretty()}`);
-
-    const myAccount = new AccountHttp();
-    myAccount.getMosaicOwnedByAddress(address).subscribe(mosaics => {
-      try{
-        resolve(mosaics.find((mosaic) => {
-          return mosaic.mosaicId.name === 'doctatst';
-        }));
-      } catch(err) {
-        console.log(`${err}`);
-    			console.log('Please try again');
-    			reject();
-      };
-    });
-	});
-};
-
-// Funcion para imprimir la informacion de un mosaico.
-const imprimeMosaico = async () => {
-  const pp = await searchMosaic(myAddress);
-  console.log('Hola xyz');
-  console.log(`El mosaico encontrado es: ${pp.mosaicId.name}`);
-
-};
+// const searchMosaic = (address: Address): Promise<Mosaic> => {
+// 	return new Promise<Mosaic>((resolve, reject) => {
+// 		console.log(`Buscando mosaico en la direccion: ${address.pretty()}`);
+//
+//     const myAccount = new AccountHttp();
+//     myAccount.getMosaicOwnedByAddress(address).subscribe(mosaics => {
+//       try{
+//         resolve(mosaics.find((mosaic) => {
+//           return mosaic.mosaicId.name === 'doctatst';
+//         }));
+//       } catch(err) {
+//         console.log(`${err}`);
+//     			console.log('Please try again');
+//     			reject();
+//       };
+//     });
+// 	});
+// };
+//
+// // Funcion para imprimir la informacion de un mosaico.
+// const imprimeMosaico = async () => {
+//   const pp = await searchMosaic(myAddress);
+//   console.log('Hola xyz');
+//   console.log(`El mosaico encontrado es: ${pp.mosaicId.name}`);
+//
+// };
 
 //const selectedMosaic = new MosaicTransferable();
 
-imprimeMosaico();
+// imprimeMosaico();
 
 
 // Probar NEMPay bajarla
