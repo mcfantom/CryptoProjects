@@ -16,19 +16,7 @@ const helloWorld = () => {
 	console.log(sMessage);
 };
 
-// // Se leen los parametros y se almacenan en una variable
-// const inputArguments = process.argv.slice(2);
-//
-// const main = async () => {
-// 	if (inputArguments[0] === 'wallet') {
-// 		if (inputArguments[1] === 'read') {
-// 			walletReading();
-// 		};
-// 	};
-// };
-//
-// main();
-
+// Menu de inicio de la aplicacion.
 const init = () => {
   console.log(chalk.green(
       figlet.textSync("Coala Wallet POC", {
@@ -77,15 +65,15 @@ const run = async () => {
     	break;
    	}
 		case 'Creacion Address Wallet': {
-    	console.log("Good");
+    	console.log('Creacion Address Wallet');
     	break;
    	}
 		case 'Consultar Transacciones': {
-    	console.log("Good");
+    	console.log('Consultar Transacciones');
     	break;
    	}
 		case 'Salvar Wallet a Disco': {
-    	console.log("Good");
+    	console.log('Salvar Wallet a Disco');
     	break;
    	}
   	case 'Leer Wallet de Disco': {
@@ -97,26 +85,44 @@ const run = async () => {
     	break;
    	}
 		case 'Transferir XEMs': {
-    	console.log("Good");
+    	console.log('Leer Wallet de Disco');
     	break;
    	}
 		case 'Revisar balances (XEM y Mosaics)': {
-    	console.log("Good");
+    	console.log('Revisar balances (XEM y Mosaics)');
     	break;
    	}
 		case 'Transferir Mosaics': {
-    	console.log("Good");
+    	console.log('Transferir Mosaics');
     	break;
    	}
 		case 'Salir': {
-    	console.log("Good");
-    	break;
-   	}
-  	case 'B': {
-    	console.log("Good");
+    	console.log('Saliendo...');
     	break;
    	}
 	};
 };
 
 run();
+
+/*
+
+// Si quisieramos trabajar con parametros desde la linea de comandos,
+// Deberiamos procesar los argumentos que reciba
+
+// Se leen los parametros y se almacenan en una variable
+const inputArguments = process.argv.slice(2);
+
+// Funcion para procesar los parametros
+const main = async () => {
+	if (inputArguments[0] === 'wallet') {
+		if (inputArguments[1] === 'read') {
+			walletReading();
+		};
+	};
+};
+
+// Funcion de inicio principal
+main();
+
+*/

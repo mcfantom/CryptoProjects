@@ -286,4 +286,4 @@ necesitamos el “flag” --save. Esto hará que el paquete esté también dispo
 * Si al momento de instalar paquetes NPM están detrás de un proxy, la forma de pasar a través del proxy es la siguiente:
 `npm --proxy http://<user>:<password>@172.16.0.15:8080 install npm@latest -g`
 * Para documentar funciones typescript/javascript y que luego los IDE puedan mostrar la ayuda de las funciones; se puede revisar el siguiente link:
-* [Best way to document javascript](https://gomakethings.com/whats-the-best-way-to-document-javascript/)
+* [Best way to document javascript code](https://gomakethings.com/whats-the-best-way-to-document-javascript/)
