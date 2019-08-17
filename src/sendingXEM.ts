@@ -15,7 +15,6 @@ const NodoNEM = <ServerConfig>{protocol: 'https', domain: 'nistest.opening-line.
 // Lo interesante seria abrir la wallet, sacar la data y con esta data firmar la transaccion.
 const privateKey: string = "c4c40504fded0288455b2dbb02ad47ffba0dbab31a882251391a454905857b9c";
 
-
 const destinationAddress = 'TASEBRE3OYKZDC5XKAQLAIXXILLLHBQRNSFRMSJP';
 const amountToSend = 1;
 const transferMessage = 'Programando con NEM Blockchain en Santiago!!!';

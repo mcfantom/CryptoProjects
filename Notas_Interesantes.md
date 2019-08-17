@@ -124,10 +124,10 @@ y “atentas” al usuario final. Con todo lo dicho, estamos agregando complejid
 tiene una explicación y un ejemplo simple:_
         * [Observables Angular en la Practica](https://desarrolloweb.com/articulos/practica-observables-angular.html)
     * Para ello ejecutamos la siguiente línea de comando:
-      * `npm install nem-library rxjs --save`
+      * `npm install nem-library@1.1.0-RC1 rxjs --save`
     * Al final debería dar como resultado algo parecido a esto:
 ```rxjs@6.5.2```
-```nem-library@2.0.0-RC4```
+```nem-library@1.1.0-RC1```
 ```added 552 packages from 332 contributors and audited 16450 packages in 135.374s```
 
     * Puede ser que también aparezcan algunos mensajes de warning sobre vulnerabilidades, pero en el mismo

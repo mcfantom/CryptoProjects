@@ -6,7 +6,7 @@ import { NEMLibrary, NetworkTypes, SimpleWallet, Password } from "nem-library";
 */
 
 export const walletReading = () => {
-  
+
   // Disponibilizacion del objeto fs (file system) en la variable fs
   // Luego esta variable nos permitira interactuar con el sistema de
   // archivos del sistema operativo

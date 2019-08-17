@@ -1,4 +1,4 @@
-import { NEMLibrary, NetworkTypes, AccountHttp, Password, SimpleWallet } from "nem-library";
+import { NEMLibrary, NetworkTypes, AccountHttp, SimpleWallet } from "nem-library";
 
 /*
 // Septimo Ejemplo OK
